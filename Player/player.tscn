@@ -1,7 +1,8 @@
-[gd_scene load_steps=51 format=3 uid="uid://coh3ja7jio4ww"]
+[gd_scene load_steps=52 format=3 uid="uid://coh3ja7jio4ww"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_osg2m"]
 [ext_resource type="Texture2D" uid="uid://24kcwsaskg8v" path="res://Player/Player.png" id="2_pdcm4"]
+[ext_resource type="Script" path="res://Player/AttackBox.gd" id="3_0uors"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g6b8v"]
 radius = 3.981
@@ -578,10 +579,10 @@ libraries = {
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_v4yk1")
 anim_player = NodePath("../AnimationPlayer")
-parameters/Attack/blend_position = Vector2(0.162137, -0.00584793)
-parameters/Idle/blend_position = Vector2(0, 0)
-parameters/Roll/blend_position = Vector2(0, 0)
-parameters/Run/blend_position = Vector2(0, 0)
+parameters/Attack/blend_position = Vector2(0, 1)
+parameters/Idle/blend_position = Vector2(0, 1)
+parameters/Roll/blend_position = Vector2(0, 1)
+parameters/Run/blend_position = Vector2(0, 1)
 
 [node name="AttackBoxPivot" type="Marker2D" parent="."]
 position = Vector2(0, -4)
@@ -590,6 +591,7 @@ position = Vector2(0, -4)
 position = Vector2(15, 0)
 collision_layer = 8
 collision_mask = 0
+script = ExtResource("3_0uors")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBoxPivot/AttackBox"]
 shape = SubResource("CapsuleShape2D_mkw6c")
