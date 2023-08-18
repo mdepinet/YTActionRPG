@@ -1,10 +1,11 @@
-[gd_scene load_steps=25 format=3 uid="uid://401gpxrnh46q"]
+[gd_scene load_steps=30 format=3 uid="uid://401gpxrnh46q"]
 
 [ext_resource type="Script" path="res://Enemies/bat.gd" id="1_mi6mm"]
 [ext_resource type="Texture2D" uid="uid://bordvt3e6iou0" path="res://Enemies/Bat.png" id="1_ts8ue"]
 [ext_resource type="Texture2D" uid="uid://j65rrw8hcgrw" path="res://Shadows/SmallShadow.png" id="2_ks2tl"]
 [ext_resource type="PackedScene" uid="uid://d0v6nkcb1olx4" path="res://stats.tscn" id="4_a8gw0"]
 [ext_resource type="Texture2D" uid="uid://dgfg5wqy74ckp" path="res://Effects/EnemyDeathEffect.png" id="5_7tyg0"]
+[ext_resource type="Texture2D" uid="uid://ch3ypu7nhnja3" path="res://Effects/HitEffect.png" id="6_r1b5q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nmgnn"]
 atlas = ExtResource("1_ts8ue")
@@ -134,6 +135,32 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_7pey7"]
+atlas = ExtResource("6_r1b5q")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wj58g"]
+atlas = ExtResource("6_r1b5q")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_48bvy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7pey7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wj58g")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xcp70"]
+resource_local_to_scene = true
+radius = 50.0
+
 [node name="Bat" type="CharacterBody2D"]
 collision_layer = 16
 script = ExtResource("1_mi6mm")
@@ -149,11 +176,11 @@ texture = ExtResource("2_ks2tl")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_50gvo")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="HitBox" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 position = Vector2(0, -13)
 shape = SubResource("CapsuleShape2D_hnw2k")
 
@@ -165,6 +192,21 @@ visible = false
 sprite_frames = SubResource("SpriteFrames_o5b2q")
 offset = Vector2(0, -12)
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_damaged"]
+[node name="HitEffect" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_48bvy")
+
+[node name="PlayerDetectionZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionZone"]
+shape = SubResource("CircleShape2D_xcp70")
+
+[connection signal="area_entered" from="HitBox" to="." method="_on_damaged"]
 [connection signal="died" from="Stats" to="." method="_on_died"]
 [connection signal="animation_finished" from="DeathEffect" to="." method="_on_death_effect_animation_finished"]
+[connection signal="animation_finished" from="HitEffect" to="." method="_on_hit_effect_animation_finished"]
+[connection signal="body_entered" from="PlayerDetectionZone" to="." method="_on_player_detected"]
+[connection signal="body_exited" from="PlayerDetectionZone" to="." method="_on_player_escaped"]
