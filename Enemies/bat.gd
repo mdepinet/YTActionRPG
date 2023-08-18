@@ -14,8 +14,6 @@ enum {
 }
 
 @onready var stats = $Stats
-@onready var sprite = $Sprite2D
-@onready var shadow = $Shadow
 @onready var deathEffect = $DeathEffect
 @onready var hitEffect = $HitEffect
 
@@ -56,8 +54,7 @@ func _on_damaged(area):
 	hitEffect.global_position = self.global_position
 
 func _on_died():
-	sprite.visible = false
-	shadow.visible = false
+	self.visible = false
 	deathEffect.frame = 0
 	deathEffect.play("default")
 	deathEffect.visible = true
