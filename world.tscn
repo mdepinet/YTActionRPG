@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://clyc1tdpklcpk"]
+[gd_scene load_steps=10 format=3 uid="uid://clyc1tdpklcpk"]
 
 [ext_resource type="Texture2D" uid="uid://b5llt1iog0ao3" path="res://World/GrassBackground.png" id="1_j4xmo"]
 [ext_resource type="PackedScene" uid="uid://bd1fssvnrd6b0" path="res://World/bush.tscn" id="2_6ai52"]
@@ -6,7 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://coh3ja7jio4ww" path="res://Player/player.tscn" id="2_pabgv"]
 [ext_resource type="TileSet" uid="uid://cr047cdtxv4tf" path="res://World/clifs.tres" id="3_1g4lv"]
 [ext_resource type="PackedScene" uid="uid://cejtlqw50con6" path="res://World/grass.tscn" id="6_ykj37"]
+[ext_resource type="PackedScene" uid="uid://c3xa2l0ln7bh5" path="res://World/tree.tscn" id="7_en7lx"]
 [ext_resource type="PackedScene" uid="uid://401gpxrnh46q" path="res://Enemies/bat.tscn" id="7_xdxxi"]
+[ext_resource type="PackedScene" uid="uid://b85nlfjmb6ooc" path="res://UI/health_ui.tscn" id="8_ls2f5"]
 
 [node name="World" type="Node2D"]
 
@@ -90,6 +92,15 @@ position = Vector2(256, 112)
 [node name="Grass11" parent="YSort/Grass" instance=ExtResource("6_ykj37")]
 position = Vector2(272, 96)
 
+[node name="Trees" type="Node2D" parent="YSort"]
+y_sort_enabled = true
+
+[node name="Tree" parent="YSort/Trees" instance=ExtResource("7_en7lx")]
+position = Vector2(104, 160)
+
+[node name="Tree2" parent="YSort/Trees" instance=ExtResource("7_en7lx")]
+position = Vector2(232, 32)
+
 [node name="Bat" parent="YSort" instance=ExtResource("7_xdxxi")]
 position = Vector2(192, 24)
 
@@ -98,3 +109,5 @@ position = Vector2(216, 160)
 
 [node name="Bat3" parent="YSort" instance=ExtResource("7_xdxxi")]
 position = Vector2(64, 96)
+
+[node name="HealthUI" parent="." instance=ExtResource("8_ls2f5")]

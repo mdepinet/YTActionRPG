@@ -88,7 +88,6 @@ func animation_finished(animation_name):
 func _on_damaged(area):
 	if not invincible:
 		stats.health -= 1
-		print("Ouch!")
 		invincible = true
 		invicibilityTimer.start(INVINCIBILITY_DURATION)
 		hitBox.set_deferred("monitoring", false)

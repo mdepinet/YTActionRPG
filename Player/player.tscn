@@ -1,6 +1,7 @@
-[gd_scene load_steps=53 format=3 uid="uid://coh3ja7jio4ww"]
+[gd_scene load_steps=54 format=3 uid="uid://coh3ja7jio4ww"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_osg2m"]
+[ext_resource type="Texture2D" uid="uid://c1w4mx0ts0lsd" path="res://Shadows/MediumShadow.png" id="2_ijc0w"]
 [ext_resource type="Texture2D" uid="uid://24kcwsaskg8v" path="res://Player/Player.png" id="2_pdcm4"]
 [ext_resource type="Script" path="res://Player/AttackBox.gd" id="3_0uors"]
 
@@ -563,6 +564,10 @@ height = 16.0
 collision_layer = 2
 script = ExtResource("1_osg2m")
 metadata/_edit_group_ = true
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(0, 1)
+texture = ExtResource("2_ijc0w")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -9)
