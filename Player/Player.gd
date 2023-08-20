@@ -5,6 +5,7 @@ const DECELERATION = 500
 const MAX_SPEED = 80
 const ROLL_SPEED = 125
 const INVINCIBILITY_DURATION = 2 # seconds
+const CAMERA_DEADZONE_RADIUS = 0.5
 
 enum {
 	MOVE,
@@ -29,6 +30,8 @@ var invicibilityTimer = $InvincibilityTimer
 @onready
 var hitBox = $HitBox
 
+var camera = null
+
 func _ready():
 	stats.died.connect(self.queue_free)
 	animationTree.active = true
@@ -41,6 +44,15 @@ func _physics_process(delta):
 			roll_state(delta)
 		ATTACK:
 			attack_state(delta)
+			
+	if camera == null:
+		camera = get_tree().get_first_node_in_group("camera")
+	else:
+		var cam_pos = camera.global_position.lerp(self.global_position, 0.05)
+		# Avoid camera jitter when approaching player by simply not moving
+		# the camera when the player is close to centered anyway.
+		if camera.global_position.distance_to(cam_pos) >= CAMERA_DEADZONE_RADIUS:
+			camera.global_position = cam_pos
 
 func move_state(delta):
 	var input_vector = Vector2.ZERO
