@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://coh3ja7jio4ww"]
+[gd_scene load_steps=53 format=3 uid="uid://coh3ja7jio4ww"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_osg2m"]
 [ext_resource type="Texture2D" uid="uid://24kcwsaskg8v" path="res://Player/Player.png" id="2_pdcm4"]
@@ -555,6 +555,10 @@ graph_offset = Vector2(-38, -24)
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mkw6c"]
 height = 32.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fsy82"]
+radius = 5.0
+height = 16.0
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("1_osg2m")
@@ -597,4 +601,16 @@ script = ExtResource("3_0uors")
 shape = SubResource("CapsuleShape2D_mkw6c")
 disabled = true
 
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(0, -4)
+shape = SubResource("CapsuleShape2D_fsy82")
+
+[node name="InvincibilityTimer" type="Timer" parent="."]
+
 [connection signal="animation_finished" from="AnimationTree" to="." method="animation_finished"]
+[connection signal="area_entered" from="HitBox" to="." method="_on_damaged"]
+[connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timeout"]

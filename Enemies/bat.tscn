@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://401gpxrnh46q"]
+[gd_scene load_steps=31 format=3 uid="uid://401gpxrnh46q"]
 
 [ext_resource type="Script" path="res://Enemies/bat.gd" id="1_mi6mm"]
 [ext_resource type="Texture2D" uid="uid://bordvt3e6iou0" path="res://Enemies/Bat.png" id="1_ts8ue"]
@@ -161,6 +161,9 @@ animations = [{
 resource_local_to_scene = true
 radius = 50.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_nk6q7"]
+radius = 5.0
+
 [node name="Bat" type="CharacterBody2D"]
 collision_layer = 16
 script = ExtResource("1_mi6mm")
@@ -203,6 +206,14 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionZone"]
 shape = SubResource("CircleShape2D_xcp70")
+
+[node name="AttackBox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox"]
+position = Vector2(0, -14)
+shape = SubResource("CircleShape2D_nk6q7")
 
 [connection signal="area_entered" from="HitBox" to="." method="_on_damaged"]
 [connection signal="died" from="Stats" to="." method="_on_died"]

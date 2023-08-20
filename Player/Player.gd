@@ -4,6 +4,7 @@ const ACCELERATION = 500
 const DECELERATION = 500
 const MAX_SPEED = 80
 const ROLL_SPEED = 125
+const INVINCIBILITY_DURATION = 2 # seconds
 
 enum {
 	MOVE,
@@ -14,6 +15,8 @@ enum {
 var state = MOVE
 var target_velocity = Vector2.ZERO
 var roll_vector = Vector2.DOWN
+var stats = PlayerStats
+var invincible = false
 
 @onready
 var animationTree = $AnimationTree
@@ -21,8 +24,13 @@ var animationTree = $AnimationTree
 var animationState = animationTree.get("parameters/playback")
 @onready
 var attackBox = $AttackBoxPivot/AttackBox
+@onready
+var invicibilityTimer = $InvincibilityTimer
+@onready
+var hitBox = $HitBox
 
 func _ready():
+	stats.died.connect(self.queue_free)
 	animationTree.active = true
 
 func _physics_process(delta):
@@ -77,3 +85,14 @@ func animation_finished(animation_name):
 		velocity *= 0.7
 	state = MOVE
 
+func _on_damaged(area):
+	if not invincible:
+		stats.health -= 1
+		print("Ouch!")
+		invincible = true
+		invicibilityTimer.start(INVINCIBILITY_DURATION)
+		hitBox.set_deferred("monitoring", false)
+
+func _on_invincibility_timeout():
+	invincible = false
+	hitBox.monitoring = true
