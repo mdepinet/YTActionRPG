@@ -16,6 +16,7 @@ enum {
 @onready var stats = $Stats
 @onready var deathEffect = $DeathEffect
 @onready var hitEffect = $HitEffect
+@onready var softCollision = $SoftCollision
 
 var knockback = Vector2.ZERO
 var state = IDLE
@@ -40,6 +41,9 @@ func _physics_process(delta):
 				velocity = velocity.move_toward(direction, ACCELERATION * delta)
 			else:
 				state = IDLE
+				
+	if softCollision.is_colliding():
+		velocity += softCollision.get_push_vector() * delta * ACCELERATION
 	move_and_slide()
 
 func _on_damaged(area):

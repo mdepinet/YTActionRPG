@@ -78,6 +78,7 @@ dodge={
 2d_physics/layer_3="PlayerDamage"
 2d_physics/layer_4="EnemyDamage"
 2d_physics/layer_5="Enemy"
+2d_physics/layer_6="SoftCollisions"
 
 [rendering]
 

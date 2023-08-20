@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://401gpxrnh46q"]
+[gd_scene load_steps=33 format=3 uid="uid://401gpxrnh46q"]
 
 [ext_resource type="Script" path="res://Enemies/bat.gd" id="1_mi6mm"]
 [ext_resource type="Texture2D" uid="uid://bordvt3e6iou0" path="res://Enemies/Bat.png" id="1_ts8ue"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d0v6nkcb1olx4" path="res://stats.tscn" id="4_a8gw0"]
 [ext_resource type="Texture2D" uid="uid://dgfg5wqy74ckp" path="res://Effects/EnemyDeathEffect.png" id="5_7tyg0"]
 [ext_resource type="Texture2D" uid="uid://ch3ypu7nhnja3" path="res://Effects/HitEffect.png" id="6_r1b5q"]
+[ext_resource type="PackedScene" uid="uid://cvwfj6pp8xnwt" path="res://soft_collision.tscn" id="7_gqi55"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nmgnn"]
 atlas = ExtResource("1_ts8ue")
@@ -164,6 +165,9 @@ radius = 50.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_nk6q7"]
 radius = 5.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_0t127"]
+radius = 6.0
+
 [node name="Bat" type="CharacterBody2D"]
 collision_layer = 16
 script = ExtResource("1_mi6mm")
@@ -214,6 +218,9 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox"]
 position = Vector2(0, -14)
 shape = SubResource("CircleShape2D_nk6q7")
+
+[node name="SoftCollision" parent="." instance=ExtResource("7_gqi55")]
+collisionShape = SubResource("CircleShape2D_0t127")
 
 [connection signal="area_entered" from="HitBox" to="." method="_on_damaged"]
 [connection signal="died" from="Stats" to="." method="_on_died"]
