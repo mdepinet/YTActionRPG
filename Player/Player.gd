@@ -1,10 +1,12 @@
 extends CharacterBody2D
 
+const PlayerHurtAudio = preload("res://Player/player_hurt.tscn")
+
 const ACCELERATION = 500
 const DECELERATION = 500
 const MAX_SPEED = 80
 const ROLL_SPEED = 125
-const INVINCIBILITY_DURATION = 2 # seconds
+const INVINCIBILITY_DURATION = 0.8 # seconds
 const CAMERA_DEADZONE_RADIUS = 0.5
 
 enum {
@@ -29,6 +31,8 @@ var attackBox = $AttackBoxPivot/AttackBox
 var invicibilityTimer = $InvincibilityTimer
 @onready
 var hitBox = $HitBox
+@onready
+var blinkAnimationPlayer = $BlinkAnimationPlayer
 
 var camera = null
 
@@ -101,9 +105,12 @@ func _on_damaged(area):
 	if not invincible:
 		stats.health -= 1
 		invincible = true
+		blinkAnimationPlayer.play("Start")
 		invicibilityTimer.start(INVINCIBILITY_DURATION)
 		hitBox.set_deferred("monitoring", false)
+		get_tree().current_scene.add_child(PlayerHurtAudio.instantiate())
 
 func _on_invincibility_timeout():
 	invincible = false
+	blinkAnimationPlayer.play("Stop")
 	hitBox.monitoring = true

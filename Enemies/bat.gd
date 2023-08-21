@@ -18,7 +18,9 @@ const WANDER_STATES = [IDLE, WANDER]
 @onready var sprite = $Sprite2D
 @onready var stats = $Stats
 @onready var deathEffect = $DeathEffect
+@onready var deathSound = $DeathEffect/AudioStreamPlayer
 @onready var hitEffect = $HitEffect
+@onready var hitSound = $HitEffect/AudioStreamPlayer
 @onready var softCollision = $SoftCollision
 @onready var wander = $WanderController
 
@@ -73,6 +75,7 @@ func _on_damaged(area):
 	hitEffect.visible = true
 	hitEffect.frame = 0
 	hitEffect.play("default")
+	hitSound.play()
 	# Keep the hitEffect from moving
 	self.remove_child(hitEffect)
 	self.add_sibling(hitEffect)
@@ -82,6 +85,7 @@ func _on_died():
 	self.visible = false
 	deathEffect.frame = 0
 	deathEffect.play("default")
+	deathSound.play()
 	deathEffect.visible = true
 	# Keep the deathEffect from moving
 	self.remove_child(deathEffect)

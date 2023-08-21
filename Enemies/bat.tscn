@@ -1,12 +1,14 @@
-[gd_scene load_steps=34 format=3 uid="uid://401gpxrnh46q"]
+[gd_scene load_steps=36 format=3 uid="uid://401gpxrnh46q"]
 
 [ext_resource type="Script" path="res://Enemies/bat.gd" id="1_mi6mm"]
 [ext_resource type="Texture2D" uid="uid://bordvt3e6iou0" path="res://Enemies/Bat.png" id="1_ts8ue"]
 [ext_resource type="Texture2D" uid="uid://j65rrw8hcgrw" path="res://Shadows/SmallShadow.png" id="2_ks2tl"]
 [ext_resource type="PackedScene" uid="uid://d0v6nkcb1olx4" path="res://stats.tscn" id="4_a8gw0"]
 [ext_resource type="Texture2D" uid="uid://dgfg5wqy74ckp" path="res://Effects/EnemyDeathEffect.png" id="5_7tyg0"]
+[ext_resource type="AudioStream" uid="uid://c1huof41wv6b5" path="res://Music and Sounds/EnemyDie.wav" id="6_4vaon"]
 [ext_resource type="Texture2D" uid="uid://ch3ypu7nhnja3" path="res://Effects/HitEffect.png" id="6_r1b5q"]
 [ext_resource type="PackedScene" uid="uid://cvwfj6pp8xnwt" path="res://soft_collision.tscn" id="7_gqi55"]
+[ext_resource type="AudioStream" uid="uid://d331w6vmvecqk" path="res://Music and Sounds/Hit.wav" id="8_htj4l"]
 [ext_resource type="PackedScene" uid="uid://d4lqxrbgnb4p3" path="res://Enemies/wander_controller.tscn" id="8_khev8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nmgnn"]
@@ -200,10 +202,16 @@ visible = false
 sprite_frames = SubResource("SpriteFrames_o5b2q")
 offset = Vector2(0, -12)
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="DeathEffect"]
+stream = ExtResource("6_4vaon")
+
 [node name="HitEffect" type="AnimatedSprite2D" parent="."]
 visible = false
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_48bvy")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="HitEffect"]
+stream = ExtResource("8_htj4l")
 
 [node name="PlayerDetectionZone" type="Area2D" parent="."]
 collision_layer = 0

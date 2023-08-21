@@ -31,6 +31,11 @@ layer_0/tile_data = PackedInt32Array(3, 131073, 2, -65533, 131073, 0, -65534, 65
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
 position = Vector2(168, 80)
+limit_left = -30
+limit_top = -30
+limit_right = 385
+limit_bottom = 190
+editor_draw_limits = true
 
 [node name="YSort" type="Node2D" parent="."]
 y_sort_enabled = true
