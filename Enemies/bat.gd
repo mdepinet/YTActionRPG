@@ -3,6 +3,7 @@ extends CharacterBody2D
 const DECELERATION = 100
 const ACCELERATION = 325
 const KNOCKBACK_ACCELERATION = 110
+const WANDER_SPEED = 30
 const CHASE_SPEED = 55
 const DETECTION_RADIUS = 50
 const CHASE_DETECTION_RADIUS = 80
@@ -12,11 +13,14 @@ enum {
 	WANDER,
 	CHASE
 }
+const WANDER_STATES = [IDLE, WANDER]
 
+@onready var sprite = $Sprite2D
 @onready var stats = $Stats
 @onready var deathEffect = $DeathEffect
 @onready var hitEffect = $HitEffect
 @onready var softCollision = $SoftCollision
+@onready var wander = $WanderController
 
 var knockback = Vector2.ZERO
 var state = IDLE
@@ -32,8 +36,17 @@ func _physics_process(delta):
 	match state:
 		IDLE:
 			velocity = velocity.move_toward(Vector2.ZERO, DECELERATION * delta)
+			maybe_switch_state()
+
 		WANDER:
-			pass
+			var direction = self.global_position.direction_to(wander.target_position).normalized() * WANDER_SPEED
+			velocity = velocity.move_toward(direction, ACCELERATION * delta)
+			if self.global_position.distance_to(wander.target_position) <= WANDER_SPEED * delta:
+				state = IDLE
+			else:
+				maybe_switch_state()
+
+
 		CHASE:
 			if player != null:
 				var direction: Vector2 = player.global_position - self.global_position
@@ -41,10 +54,18 @@ func _physics_process(delta):
 				velocity = velocity.move_toward(direction, ACCELERATION * delta)
 			else:
 				state = IDLE
-				
+
 	if softCollision.is_colliding():
 		velocity += softCollision.get_push_vector() * delta * ACCELERATION
+
+	sprite.flip_h = velocity.x < 0
 	move_and_slide()
+
+func maybe_switch_state():
+	if wander.get_time_left() <= 0:
+		state = WANDER_STATES[randi_range(0, len(WANDER_STATES) - 1)]
+		wander.start_timer(randf_range(1, 3))
+		
 
 func _on_damaged(area):
 	knockback = area.knockback_vector * KNOCKBACK_ACCELERATION
